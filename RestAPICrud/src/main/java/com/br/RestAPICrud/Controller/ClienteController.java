@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,9 +32,22 @@ public class ClienteController {
 		return repository.findById(id).get();
 	}
 	
+	
 	@PostMapping("/cliente")
 	public Cliente saveCliente(@RequestBody Cliente cliente) {
 		return repository.save(cliente);
+	}
+	
+	
+	@PutMapping("/cliente/{id}")
+	public void updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+		Cliente c = repository.findById(id).get();
+		c.setNome(cliente.getNome());
+		c.setCpf(cliente.getCpf());
+		c.setEmail(cliente.getEmail());
+		c.setIdade(cliente.getIdade());
+		repository.save(c);
+			
 	}
 	
 	@DeleteMapping("/cliente/{id}")
